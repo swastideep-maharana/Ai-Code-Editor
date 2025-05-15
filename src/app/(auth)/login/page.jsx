@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { signIn } from "@/lib/authHelpers";
+import { signIn } from "../../lib/authHelpers";
+
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
+import { Label } from "../../../components/ui/label";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -39,19 +40,17 @@ export default function LoginPage() {
             <Button onClick={handleLogin} className="w-full mt-4">
               Login
             </Button>
-            
-            
           </div>
-          
         </CardContent>
       </Card>
     </div>
   );
 }
 
-
-{/* <p className="mt-4 text-center">
+{
+  /* <p className="mt-4 text-center">
           Don't have an account?{" "}
           <a href="/signup" className="text-blue-600 underline">
             Signup
-          </a> */}
+          </a> */
+}
