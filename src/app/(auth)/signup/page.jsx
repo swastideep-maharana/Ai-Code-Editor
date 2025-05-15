@@ -1,62 +1,54 @@
 "use client";
 
 import { useState } from "react";
-import { auth } from "@/lib/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { signUp } from "@/lib/authHelpers";
 import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
 
-export default function SignupPage() {
-  const router = useRouter();
+export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const router = useRouter();
 
-  const handleSignup = async (e) => {
-    e.preventDefault();
-    setError("");
+  const handleSignUp = async () => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      router.push("/dashboard");
+      await signUp(email, password);
+      router.push("/dashboard"); // or home page
     } catch (err) {
-      setError(err.message);
+      alert(err.message);
     }
   };
 
   return (
-    <main className="flex justify-center items-center min-h-screen bg-gray-50">
-      <form
-        onSubmit={handleSignup}
-        className="p-6 bg-white rounded-md shadow-md w-full max-w-sm"
-      >
-        <h1 className="text-2xl font-bold mb-4">Sign Up</h1>
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full mb-3 px-3 py-2 border rounded"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full mb-3 px-3 py-2 border rounded"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        {error && <p className="text-red-500 mb-3 text-sm">{error}</p>}
-        <Button type="submit" className="w-full">
-          Sign Up
-        </Button>
-        <p className="mt-4 text-center">
-          Don't have an account?{" "}
-          <a href="/(auth)/signup" className="text-blue-600 underline">
-            Sign Up
-          </a>
-        </p>
-      </form>
-    </main>
+    <div className="min-h-screen flex items-center justify-center">
+      <Card className="w-full max-w-md">
+        <CardContent className="space-y-4 p-6">
+          <h2 className="text-2xl font-bold">Sign Up</h2>
+          <div className="space-y-2">
+            <Label>Email</Label>
+            <Input value={email} onChange={(e) => setEmail(e.target.value)} />
+            <Label>Password</Label>
+            <Input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button onClick={handleSignUp} className="w-full mt-4">
+              Sign Up
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
+
+//  <p className="mt-4 text-center">
+//           Don't have an account?{" "}
+//           <a href="/login" className="text-blue-600 underline">
+//             Login
+//           </a>
+//         </p>
